@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.meeting.belongsTo(models.user)
+      models.meeting.hasMany(models.task)
     }
   };
   meeting.init({

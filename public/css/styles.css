@@ -1,0 +1,12 @@
+body {
+  text-align: center;
+}
+
+.input.is-rounded {
+  max-width: 40%;
+  text-align: center;
+}
+
+.title {
+  margin-top: 10rem;
+}

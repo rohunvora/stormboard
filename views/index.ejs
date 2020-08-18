@@ -1,0 +1,25 @@
+
+  <h1 class="title">Stormboard</h1>
+  <h2 class="subtitle">A brainstorm where the best ideas win. <br> Your team can share their honest thoughts, anonymously.</h2>
+
+  <div class="field">
+    <form method="POST" action="/meeting" autocomplete="off">
+      <div class="control">
+        <label class="label" for="createMeeting">Create</label>
+        <input class="input is-rounded" id="createMeeting" type="text" name="createMeeting">
+        <p class="help">The name of your team.</p>
+        <button class="button is-primary is-outlined" type="submit">Create Meeting</button>
+      </div>
+    </form>
+  </div>
+
+<div class="field">
+  <form method="GET" action="/meeting" autocomplete="off">
+    <div class="control">
+      <label class="label" for="enterMeeting">Join</label>
+        <input class="input is-rounded" id="enterMeeting" type="text" name="enterMeeting">
+        <p class="help">Type the pin for the meeting.</p>
+        <button class="button is-link is-outlined" type="submit">Join Meeting</button>
+        </div>
+      </form>
+    </div>
