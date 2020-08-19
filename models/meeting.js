@@ -11,14 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.meeting.belongsTo(models.user)
+      models.meeting.hasMany(models.user)
       models.meeting.hasMany(models.task)
+      models.meeting.hasMany(models.comment)
     }
   };
   meeting.init({
     userId: DataTypes.INTEGER,
     room: DataTypes.STRING,
-    pin: DataTypes.INTEGER
+    pin: DataTypes.INTEGER,
+    taskId: DataTypes.INTEGER,
+    commentId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'meeting',

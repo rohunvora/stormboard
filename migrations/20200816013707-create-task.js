@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      commentId: {
+        type: Sequelize.INTEGER
+      },
       content: {
         type: Sequelize.STRING
       },

@@ -1,4 +1,4 @@
-body {
+main {
   text-align: center;
 }
 
@@ -9,4 +9,29 @@ body {
 
 .title {
   margin-top: 10rem;
+  text-align: center;
+}
+
+#meetingName {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+#taskInput {
+  max-width: 40%;
+  min-width: 20%;
+  margin: auto;
+  min-height: 5rem;
+}
+
+#addButton {
+  margin: 1rem;
+}
+
+#example-box {
+  max-width: 40%;
+  min-width: 20%;
+  margin: auto;
+  min-height: 5rem;
+  text-align: left;
 }

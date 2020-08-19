@@ -13,12 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.task.belongsTo(models.user)
       models.task.belongsTo(models.meeting)
+      models.task.hasMany(models.comment)
     }
   };
   task.init({
     content: DataTypes.STRING,
     meetingId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    commentId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'task',

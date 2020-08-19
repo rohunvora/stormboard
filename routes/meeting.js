@@ -4,52 +4,84 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 const axios = require('axios');
-
+const meeting = require("../models/meeting");
+const user = require("../models/user");
 // Routes
 
 // Create Meeting Post Route
   router.post('/', (req, res) => {
     let meetingPin = Math.random().toString().substr(2, 4);
-      // fetch the nickname
-    axios.get("http://names.drycodes.com/1?format=text")
-    .then((response) => {
-    // set nickname to variable
-    let randomName = response.data
     // set meeting name to variable
     let meetingName = req.body.createMeeting
-    // set variable for the pin using a random number generator
-
-    // create temp user with just the nickname
-    db.user.create({
-      nickname: randomName
-    })
     //create the meeting room
-      .then(user => {
         db.meeting.create({
         room: meetingName,
         pin: meetingPin,
-        userId: user.id
-        }).then((meeting)=> {
+        })
+        .then((meeting)=> {
           res.redirect(`/meeting/${meetingPin}`);
         })
-      })
     })
-  })
 
 
 // Get route for the creator to enter the room
   router.get('/:pin', (req, res) => {
+    // find the meeting at the specific pin
     db.meeting.findOne({
       where: { pin: req.params.pin },
-      // include: [db.task, db.comment, db.user]
+      // include the other databases
+      include: [db.task, db.comment, db.user]
     })
     .then((meeting) => {
-      console.log(meeting)
-      // db.task.findAll()
-      // db.comment.findAll()
+    // fetch the nickname
+    axios.get("http://names.drycodes.com/1?format=text")
+    .then((response) => {
+      // set nickname to variable
+      let randomName = response.data
+      // create the user right here
+      db.user.findOrCreate({
+        where: {
+          meetingId: meeting.id,
+          nickname: randomName
+        },
+      });
+        res.render('meeting', {meeting: meeting})
+      })
+  })
+})
 
-    // pass through all the data from meeting, task, and comment
-    res.render('meeting', {meeting: meeting})
+  router.post('/join', (req, res) => {
+    // find the meeting based on the inputted pin
+    db.meeting.findOne({
+      where: {pin: req.body.meetingPin},
+      include: [db.user]
+    })
+    .then((meeting) => {
+      // fetch their random name
+      axios.get("http://names.drycodes.com/1?format=text")
+      .then((response) => {
+        // set their random name
+        let randomName = response.data
+        // create the user in the database
+        db.user.findOrCreate({
+          where: {
+            nickname: randomName,
+            meetingId: meeting.id
+          },
+        })
+        .then(() => {
+          res.redirect(`/meeting/${meeting.pin}`)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    })
+    .catch(err => {
+      console.log(err)
     })
   })
 
