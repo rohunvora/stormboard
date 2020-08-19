@@ -44,9 +44,10 @@ const user = require("../models/user");
           meetingId: meeting.id,
           nickname: randomName
         },
-      });
-        res.render('meeting', {meeting: meeting})
+      }).then((user) => {
+        res.render("meeting", { user: user,meeting: meeting });
       })
+    })
   })
 })
 

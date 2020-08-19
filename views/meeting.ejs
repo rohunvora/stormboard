@@ -1,17 +1,22 @@
 
 <h1 class="title" id="meetingName"><%= meeting.room %></h1>
 <h1 class="subtitle">Meeting Pin: <%= meeting.pin %></h1>
-<h1 class="subtitle">Your Nickname: </h1>
+<h1 class="subtitle">Your Nickname: <%= user[0].dataValues.nickname %> </h1>
+<input type="text" name ="nickname" id="nickname" value="<%= user[0].dataValues.nickname %>" hidden>
 
-<textarea class="textarea" id="taskInput" placeholder="e.g. Hello world"></textarea>
-<button class="button is-primary" id="addButton">Add</button>
+<form action="">
+  <textarea class="textarea" id="taskInput" placeholder="Write your idea here"></textarea>
+  <button class="button is-primary" id="addButton">Add</button>
+</form>
 
 
 <article class="message" id="example-box">
   <div class="message-header">
+  <%= user[0].dataValues.nickname %>
   </div>
-  <div class="message-body">
-    Example Task
+
+<div class="message-body">
+    <li>Example Task</li>
   </div>
 </article>
 
