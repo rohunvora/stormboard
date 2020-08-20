@@ -17,11 +17,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   meeting.init({
-    userId: DataTypes.INTEGER,
+    nickname: DataTypes.STRING,
     room: DataTypes.STRING,
     pin: DataTypes.INTEGER,
     taskId: DataTypes.INTEGER,
-    commentId: DataTypes.INTEGER
+    commentId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'meeting',

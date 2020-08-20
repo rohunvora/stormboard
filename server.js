@@ -2,6 +2,8 @@
 const express = require("express");
 const layouts = require("express-ejs-layouts");
 const app = express();
+const cookieParser = require("cookie-parser");
+
 
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
@@ -10,6 +12,7 @@ const io = require("socket.io")(http);
 app.set('view engine', 'ejs')
 app.use(layouts)
 app.use(express.static(__dirname + '/public'));
+app.use(cookieParser());
 
 const bodyParser = require("body-parser");
 const db = require("./models");

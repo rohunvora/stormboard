@@ -27,6 +27,7 @@ const task = require("../models/task");
 
 // Get route for the creator to enter the room
   router.get('/:pin', (req, res) => {
+    if (req.cookies.nickname === undefined) {
     // find the meeting at the specific pin
     db.meeting.findOne({
       where: { pin: req.params.pin },
@@ -38,8 +39,9 @@ const task = require("../models/task");
     axios.get("http://names.drycodes.com/1?format=text")
     .then((response) => {
       // set nickname to variable
-      let randomName = response.data
+      const randomName = response.data
       // create the user right here
+      res.cookie("nickname", randomName);
       db.user.findOrCreate({
         where: {
           meetingId: meeting.id,
@@ -56,6 +58,28 @@ const task = require("../models/task");
       })
     })
   })
+  } else {
+    db.meeting.findOne({
+      where: { pin: req.params.pin },
+      include: [db.task, db.comment, db.user]
+    })
+    .then((meeting) => {
+      console.log(req.cookies.nickname)
+      db.user.findOne({
+        where: {
+          nickname: req.cookies.nickname
+        },
+      }).then((user) => {
+        db.task.findAll({
+          where: { meetingId: meeting.id },
+          include: [db.meeting, db.user],
+        })
+        .then((task) => {
+          res.render("meeting", { task: task, user: user, meeting: meeting,});
+        })
+      })
+    })
+  }
 })
 
   router.post('/join', (req, res) => {
@@ -97,6 +121,7 @@ const task = require("../models/task");
 router.post('/:pin/task', (req, res) => {
   let taskContent = req.body.taskInput
   let meetingPin = req.params.pin
+  let userName = req.body.nickname
 
   db.meeting.findOne({
     where: {pin: meetingPin},
@@ -106,6 +131,7 @@ router.post('/:pin/task', (req, res) => {
     db.task.create({
       content: taskContent,
       meetingId: meeting.id,
+      nickname: userName
     })
   })
   res.redirect(`/meeting/${meetingPin}`)
@@ -113,4 +139,8 @@ router.post('/:pin/task', (req, res) => {
 // Export the router module
 module.exports = router;
 
-// Add a view for
+
+// Add the library
+// javascript code on page load check to see if on a variable nickname-meetingID to see if there's a nickname already set
+// add a variable to the request "what is my nickname already" in the post request
+// if it's empty it will make a new one or if it's not it will use that.

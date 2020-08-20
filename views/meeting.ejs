@@ -1,20 +1,20 @@
 
 <h1 class="title" id="meetingName"><%= meeting.room %></h1>
 <h1 class="subtitle">Meeting Pin: <%= meeting.pin %></h1>
-<h1 class="subtitle">Your Nickname: <%= user[0].dataValues.nickname %> </h1>
-<input type="text" name ="nickname" id="nickname" value="<%= user[0].dataValues.nickname %>" hidden>
+<h1 class="subtitle">Your Nickname: <%= user.nickname %> </h1>
 
 <form action="/meeting/<%=meeting.pin%>/task" method="POST">
   <label class="label" for="taskInput"></label>
   <textarea class="textarea" name="taskInput" id="taskInput" placeholder="Write your idea here"></textarea>
   <button type="submit" class="button is-primary" id="addButton">Add</button>
+  <input type="text" name="nickname" id="nickname" value="<%= user.nickname %>" hidden>
 </form>
 
 <% task.forEach(t => { %>
 
 <article class="message">
   <div class="message-header">
-  <%= user[0].dataValues.nickname %>
+  <%= t.nickname %>
   </div>
 <div class="message-body">
     <h3 class="subtitle is-4"><%= t.content %></h3>
