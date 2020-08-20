@@ -6,6 +6,7 @@ const db = require("../models");
 const axios = require('axios');
 const meeting = require("../models/meeting");
 const user = require("../models/user");
+const task = require("../models/task");
 // Routes
 
 // Create Meeting Post Route
@@ -45,7 +46,13 @@ const user = require("../models/user");
           nickname: randomName
         },
       }).then((user) => {
-        res.render("meeting", { user: user,meeting: meeting });
+        db.task.findAll({
+          where: { meetingId: meeting.id },
+          include: [db.meeting, db.user],
+        })
+        .then((task) => {
+          res.render("meeting", { task: task, user: user, meeting: meeting,});
+        })
       })
     })
   })
@@ -101,6 +108,7 @@ router.post('/:pin/task', (req, res) => {
       meetingId: meeting.id,
     })
   })
+  res.redirect(`/meeting/${meetingPin}`)
 })
 // Export the router module
 module.exports = router;

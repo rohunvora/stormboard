@@ -28,7 +28,7 @@ main {
   margin: 1rem;
 }
 
-#example-box {
+.message {
   max-width: 40%;
   min-width: 20%;
   margin: auto;

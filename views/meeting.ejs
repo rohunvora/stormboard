@@ -10,22 +10,18 @@
   <button type="submit" class="button is-primary" id="addButton">Add</button>
 </form>
 
+<% task.forEach(t => { %>
 
-<article class="message" id="example-box">
+<article class="message">
   <div class="message-header">
   <%= user[0].dataValues.nickname %>
   </div>
-
 <div class="message-body">
-    <h3 class="subtitle is-4">Rome Bell for President?</h3>
-
-    <div>
-       <li>RomeBell: This is stupid!</li>
-    </div>
-
+    <h3 class="subtitle is-4"><%= t.content %></h3>
   </div>
-
 </article>
+
+<% }) %>
 
 
 
