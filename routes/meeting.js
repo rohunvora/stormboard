@@ -86,5 +86,21 @@ const user = require("../models/user");
     })
   })
 
+
+router.post('/:pin/task', (req, res) => {
+  let taskContent = req.body.taskInput
+  let meetingPin = req.params.pin
+
+  db.meeting.findOne({
+    where: {pin: meetingPin},
+    include: [db.task, db.user]
+  })
+  .then((meeting) => {
+    db.task.create({
+      content: taskContent,
+      meetingId: meeting.id,
+    })
+  })
+})
 // Export the router module
 module.exports = router;

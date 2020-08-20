@@ -4,9 +4,10 @@
 <h1 class="subtitle">Your Nickname: <%= user[0].dataValues.nickname %> </h1>
 <input type="text" name ="nickname" id="nickname" value="<%= user[0].dataValues.nickname %>" hidden>
 
-<form action="">
-  <textarea class="textarea" id="taskInput" placeholder="Write your idea here"></textarea>
-  <button class="button is-primary" id="addButton">Add</button>
+<form action="/meeting/<%=meeting.pin%>/task" method="POST">
+  <label class="label" for="taskInput"></label>
+  <textarea class="textarea" name="taskInput" id="taskInput" placeholder="Write your idea here"></textarea>
+  <button type="submit" class="button is-primary" id="addButton">Add</button>
 </form>
 
 
@@ -16,9 +17,16 @@
   </div>
 
 <div class="message-body">
-    <li>Example Task</li>
+    <h3 class="subtitle is-4">Rome Bell for President?</h3>
+
+    <div>
+       <li>RomeBell: This is stupid!</li>
+    </div>
+
   </div>
+
 </article>
+
 
 
 <script src="/socket.io/socket.io.js"></script>
