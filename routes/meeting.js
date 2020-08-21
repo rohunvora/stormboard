@@ -28,6 +28,7 @@ const task = require("../models/task");
 // Get route for the creator to enter the room
   router.get('/:pin', (req, res) => {
     if (req.cookies.nickname === undefined) {
+    console.log("The if route was run");
     // find the meeting at the specific pin
     db.meeting.findOne({
       where: { pin: req.params.pin },
@@ -42,12 +43,12 @@ const task = require("../models/task");
       const randomName = response.data
       // create the user right here
       res.cookie("nickname", randomName);
-      db.user.findOrCreate({
-        where: {
+      db.user.create({
           meetingId: meeting.id,
           nickname: randomName
-        },
       }).then((user) => {
+        console.log("Test Log");
+        console.log(user.get().nickname);
         db.task.findAll({
           where: { meetingId: meeting.id },
           include: [db.meeting, db.user],
@@ -59,23 +60,24 @@ const task = require("../models/task");
     })
   })
   } else {
+    console.log("The else route was run");
     db.meeting.findOne({
       where: { pin: req.params.pin },
       include: [db.task, db.comment, db.user]
     })
     .then((meeting) => {
-      console.log(req.cookies.nickname)
       db.user.findOne({
         where: {
           nickname: req.cookies.nickname
         },
-      }).then((user) => {
+      })
+      .then((user) => {
         db.task.findAll({
           where: { meetingId: meeting.id },
           include: [db.meeting, db.user],
         })
-        .then((task) => {
-          res.render("meeting", { task: task, user: user, meeting: meeting,});
+      .then((task) => {
+        res.render("meeting", { task: task, user: user, meeting: meeting,});
         })
       })
     })

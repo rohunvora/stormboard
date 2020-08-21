@@ -3,24 +3,22 @@ const express = require("express");
 const layouts = require("express-ejs-layouts");
 const app = express();
 const cookieParser = require("cookie-parser");
-
-
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
-
-// app.set('io', io)
-app.set('view engine', 'ejs')
-app.use(layouts)
-app.use(express.static(__dirname + '/public'));
-app.use(cookieParser());
-
 const bodyParser = require("body-parser");
 const db = require("./models");
+const cookieSession = require('cookie-session')
+const passport = require("passport");
+require("./passport-setup");
+require("dotenv").config();
 
-// Sets up body-parser for parsing form data
+// app.use
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.set("view engine", "ejs");
+app.use(layouts);
+app.use(express.static(__dirname + "/public"));
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Render the homepage
 app.get('/', (req, res) => {
@@ -38,7 +36,12 @@ app.get('/', (req, res) => {
 app.use('/meeting', require('./routes/meeting'));
 app.use('/auth', require('./routes/auth'));
 
-  io.on("connection", (socket) => {
+
+// Socket.io Setup
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
+
+io.on("connection", (socket) => {
     io.emit("hello", "hello bro");
     socket.on("hello", (hello) => {
       console.log("Hello World", { hello: hello });
@@ -48,6 +51,52 @@ app.use('/auth', require('./routes/auth'));
       console.log("user disconnected");
     });
   });
+
+// Authentication
+app.use(cookieSession({
+    name: "stormboard-session",
+    keys: ["key1", "key2"],
+  })
+);
+
+const isLoggedIn = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+};
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+app.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/good");
+  }
+);
+
+app.get("/logout", (req, res) => {
+  req.session = null;
+  req.logout();
+  res.redirect("/");
+});
+
+app.get("/success", (req, res) => res.send(`Welcome mr ${req.user.displayName}!`));
+app.get("/failed", (req, res) => res.send("You Failed to log in!"));
+
+// In this route you can see that if the user is logged in u can acess his info in: req.user
+app.get("/good", isLoggedIn, (req, res) =>
+  res.send(`Welcome mr ${req.user.displayName}!`)
+);
 
 
 
