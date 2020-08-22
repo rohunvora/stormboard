@@ -27,6 +27,7 @@ const task = require("../models/task");
 
 // Get route for the creator to enter the room
   router.get('/:pin', (req, res) => {
+    let meetingPin = req.params.pin;
     if (req.cookies.nickname === undefined) {
     console.log("The if route was run");
     // find the meeting at the specific pin
@@ -42,7 +43,7 @@ const task = require("../models/task");
       // set nickname to variable
       const randomName = response.data
       // create the user right here
-      res.cookie("nickname", randomName);
+      res.cookie("nickname", randomName, {path: `/meeting/${meetingPin}`});
       db.user.create({
           meetingId: meeting.id,
           nickname: randomName
