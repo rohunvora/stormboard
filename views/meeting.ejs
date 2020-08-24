@@ -18,6 +18,7 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
+          <a id="copyButton" class="button is-info is-outlined">Copy Invite Link</a>
           <a href="/" class="button is-danger">
             <strong>Leave Meeting</strong>
           </a>
@@ -28,7 +29,7 @@
 </nav>
 
 <h1 class="title" id="meetingName"><%= meeting.room %></h1>
-<h1 class="subtitle">Meeting Pin: <%= meeting.pin %></h1>
+<h1 id ="meetingPin" class="subtitle is-small">Meeting Pin: <%= meeting.pin %></h1>
 <h1 class="subtitle">Your Nickname: <%= user.nickname %> </h1>
 
 <form action="/meeting/<%=meeting.pin%>/task" method="POST">
