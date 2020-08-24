@@ -86,38 +86,7 @@ const task = require("../models/task");
 })
 
   router.post('/join', (req, res) => {
-    // find the meeting based on the inputted pin
-    db.meeting.findOne({
-      where: {pin: req.body.meetingPin},
-      include: [db.user]
-    })
-    .then((meeting) => {
-      // fetch their random name
-      axios.get("http://names.drycodes.com/1?format=text")
-      .then((response) => {
-        // set their random name
-        let randomName = response.data
-        // create the user in the database
-        db.user.findOrCreate({
-          where: {
-            nickname: randomName,
-            meetingId: meeting.id
-          },
-        })
-        .then(() => {
-          res.redirect(`/meeting/${meeting.pin}`)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    res.redirect(`/meeting/${req.body.meetingPin}`)
   })
 
 
