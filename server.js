@@ -32,6 +32,8 @@ app.get('/', (req, res) => {
 
 });
 
+
+
 // Linking to the controllers
 app.use('/meeting', require('./routes/meeting'));
 app.use('/auth', require('./routes/auth'));
@@ -63,7 +65,7 @@ const isLoggedIn = (req, res, next) => {
   if (req.user) {
     next();
   } else {
-    res.sendStatus(401);
+    res.redirect('/');
   }
 };
 
@@ -77,10 +79,10 @@ app.get(
 
 app.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", { failureRedirect: "/" }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect("/good");
+    res.redirect("/welcome");
   }
 );
 
@@ -90,12 +92,12 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-app.get("/success", (req, res) => res.send(`Welcome mr ${req.user.displayName}!`));
+app.get("/success", (req, res) => res.send(`Welcome ${req.user.displayName}!`));
 app.get("/failed", (req, res) => res.send("You Failed to log in!"));
 
 // In this route you can see that if the user is logged in u can acess his info in: req.user
-app.get("/good", isLoggedIn, (req, res) =>
-  res.send(`Welcome mr ${req.user.displayName}!`)
+app.get("/welcome", isLoggedIn, (req, res) =>
+  res.render('welcome', {user: req.user.displayName})
 );
 
 

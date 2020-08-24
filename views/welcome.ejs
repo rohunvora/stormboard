@@ -1,9 +1,17 @@
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a href="/welcome" class="navbar-item">
+        Stormboard
+      </a>
+
+    </div>
+
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
         <a href="/welcome" class="navbar-item">
-          Stormboard
+          Home
         </a>
 
       </div>
@@ -11,11 +19,11 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a href="/google" class="button is-primary" >
-              <strong>Sign up</strong>
+            <a class="navbar-item" >
+              <strong><%= user %></strong>
             </a>
-            <a href="/google" class="button is-light">
-              Log in
+            <a href="/logout" class="button is-danger" >
+              Log Out
             </a>
           </div>
         </div>

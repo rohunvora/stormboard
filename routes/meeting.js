@@ -141,9 +141,3 @@ router.post('/:pin/task', (req, res) => {
 })
 // Export the router module
 module.exports = router;
-
-
-// Add the library
-// javascript code on page load check to see if on a variable nickname-meetingID to see if there's a nickname already set
-// add a variable to the request "what is my nickname already" in the post request
-// if it's empty it will make a new one or if it's not it will use that.
