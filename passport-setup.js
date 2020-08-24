@@ -17,13 +17,13 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET_KEY,
-      callbackURL: "http://localhost:3000/google/callback",
+      callbackURL: "https://stormboard-io.herokuapp.com/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       // User.findOrCreate({ googleId: profile.id }, function (err, user) {
       //   return cb(err, user);
       // });
-      return done(null, profile)
+      return done(null, profile);
     }
   )
 );
