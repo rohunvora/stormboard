@@ -29,7 +29,6 @@ app.get('/', (req, res) => {
   .then(meeting => {
     res.render("index", {meeting});
   })
-
 });
 
 
