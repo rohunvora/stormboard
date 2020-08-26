@@ -75,10 +75,12 @@ const task = require("../models/task");
       .then((user) => {
         db.task.findAll({
           where: { meetingId: meeting.id },
-          include: [db.meeting, db.user],
         })
       .then((task) => {
-        res.render("meeting", { task: task, user: user, meeting: meeting,});
+        db.comment.findAll()
+           .then((comment) => {
+            res.render("meeting", { task: task, user: user, meeting: meeting, comment: comment});
+          })
         })
       })
     })
@@ -108,5 +110,26 @@ router.post('/:pin/task', (req, res) => {
   })
   res.redirect(`/meeting/${meetingPin}`)
 })
+
+router.post('/:pin/comment/:id', (req, res) => {
+  let commentContent = req.body.commentInput
+  let meetingPin = req.params.pin
+  let taskId = req.params.id
+  let userName = req.body.nickname
+
+  db.task.findOne({
+    where: {id: taskId},
+    include: [db.meeting, db.user]
+  })
+  .then((task) => {
+    db.comment.create({
+      comment: commentContent,
+      taskId: taskId,
+      nickname: userName
+    })
+  })
+  res.redirect(`/meeting/${meetingPin}`);
+})
+
 // Export the router module
 module.exports = router;

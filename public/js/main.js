@@ -15,3 +15,9 @@ copyButton.addEventListener('click', (event => {
   document.execCommand('copy');
   document.body.removeChild(inviteLink)
 }))
+
+let comment = document.getElementById('reply')
+
+comment.addEventListener('click', (event => {
+  console.log('this works')
+}))

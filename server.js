@@ -22,7 +22,7 @@ app.use(passport.session());
 
 // Render the homepage
 app.get('/', (req, res) => {
-  res.render("index", {meeting});
+  res.render("index");
 });
 
 // Linking to the controllers

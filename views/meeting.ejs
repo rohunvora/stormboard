@@ -34,9 +34,10 @@
 
 <form action="/meeting/<%=meeting.pin%>/task" method="POST">
   <label class="label" for="taskInput"></label>
-  <textarea class="textarea" name="taskInput" id="taskInput" placeholder="Write your idea here"></textarea>
-  <button type="submit" class="button is-primary" id="addButton">Add</button>
+  <span class="textarea" role="textbox" name="taskInput" id="taskInput" contenteditable></span>
+  <button type="submit" class="button is-primary" id="addButton">Add to Discussion</button>
   <input type="text" name="nickname" id="nickname" value="<%= user.nickname %>" hidden>
+  </form>
 </form>
 
 <% task.forEach(t => { %>
@@ -47,6 +48,15 @@
   </div>
 <div class="message-body">
     <h3 class="subtitle is-4"><%= t.content %></h3>
+    <% comment.forEach(c => { %>
+    <% if (c.taskId === t.id) { %>
+      <li id="comment"><%= c.comment %></li>
+    <% }})%>
+    <form action="/meeting/<%=meeting.pin%>/comment/<%=t.id %>" method="POST" id="commentForm">
+        <input class="input is-rounded" id="commentInput" type="text" name="commentInput">
+        <button type="submit" class="button is-info is-rounded" id="commentSubmit">Reply</button>
+    </form>
+
   </div>
 </article>
 

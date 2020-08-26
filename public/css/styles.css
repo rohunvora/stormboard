@@ -18,10 +18,15 @@ main {
 }
 
 #taskInput {
+  display: block;
   max-width: 40%;
   min-width: 20%;
-  margin: auto;
   min-height: 5rem;
+  margin: auto;
+  text-align: left;
+  overflow: hidden;
+  resize: both;
+  line-height: 20px;
 }
 
 #addButton {
@@ -34,4 +39,28 @@ main {
   margin: auto;
   min-height: 5rem;
   text-align: left;
+}
+
+a {
+  display: block;
+  text-align: right;
+}
+
+#commentForm {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+#commentInput {
+  text-align: left;
+  max-width: 87%;
+}
+
+.subtitle.is-4 {
+  margin-bottom: 0.4rem;
+}
+
+#comment {
+  margin-left: 1rem;
 }
