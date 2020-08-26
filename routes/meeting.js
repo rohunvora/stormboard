@@ -55,7 +55,10 @@ const task = require("../models/task");
           include: [db.meeting, db.user],
         })
         .then((task) => {
-          res.render("meeting", { task: task, user: user, meeting: meeting,});
+          db.comment.findAll()
+          .then((comment) => {
+          res.render("meeting", { task: task, user: user, meeting: meeting, comment: comment});
+          })
         })
       })
     })

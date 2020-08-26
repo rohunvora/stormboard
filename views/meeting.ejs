@@ -34,11 +34,10 @@
 
 <form action="/meeting/<%=meeting.pin%>/task" method="POST">
   <label class="label" for="taskInput"></label>
-  <span class="textarea" role="textbox" name="taskInput" id="taskInput" contenteditable></span>
+  <textarea class="textarea" name="taskInput" id="taskInput" placeholder="Write your idea here"></textarea>
   <button type="submit" class="button is-primary" id="addButton">Add to Discussion</button>
   <input type="text" name="nickname" id="nickname" value="<%= user.nickname %>" hidden>
   </form>
-</form>
 
 <% task.forEach(t => { %>
 

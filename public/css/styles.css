@@ -18,15 +18,10 @@ main {
 }
 
 #taskInput {
-  display: block;
   max-width: 40%;
   min-width: 20%;
-  min-height: 5rem;
   margin: auto;
-  text-align: left;
-  overflow: hidden;
-  resize: both;
-  line-height: 20px;
+  min-height: 5rem;
 }
 
 #addButton {
