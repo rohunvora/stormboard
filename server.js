@@ -22,16 +22,8 @@ app.use(passport.session());
 
 // Render the homepage
 app.get('/', (req, res) => {
-
-  db.meeting.findAll({
-    include: [db.user]
-  })
-  .then(meeting => {
-    res.render("index", {meeting});
-  })
+  res.render("index", {meeting});
 });
-
-
 
 // Linking to the controllers
 app.use('/meeting', require('./routes/meeting'));
