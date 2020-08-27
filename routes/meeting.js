@@ -80,6 +80,8 @@ const task = require("../models/task");
           where: { meetingId: meeting.id },
         })
       .then((task) => {
+        // db.vote.count WHERE task.id = task.id
+        // pass that in as vote: vote in the render
         db.comment.findAll()
            .then((comment) => {
             res.render("meeting", { task: task, user: user, meeting: meeting, comment: comment});
@@ -133,6 +135,14 @@ router.post('/:pin/comment/:id', (req, res) => {
   })
   res.redirect(`/meeting/${meetingPin}`);
 })
+
+// post route for /meeting/meetingpin/taskid/vote
+// check if user exists for the task id in url param
+// if it does, then destroy that row from the table
+// render the page again
+// if it does not, then create the row in the database
+
+
 
 // Export the router module
 module.exports = router;
