@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       models.meeting.hasMany(models.user)
       models.meeting.hasMany(models.task)
       models.meeting.hasMany(models.comment)
+      models.meeting.hasMany(models.vote)
     }
   };
   meeting.init({
@@ -22,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     pin: DataTypes.INTEGER,
     taskId: DataTypes.INTEGER,
     commentId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    voteId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'meeting',

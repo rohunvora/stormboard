@@ -23,7 +23,7 @@ module.exports = {
       nickname: {
         type: Sequelize.STRING,
       },
-      vote: {
+      voteId: {
         type: Sequelize.INTEGER,
       },
       createdAt: {

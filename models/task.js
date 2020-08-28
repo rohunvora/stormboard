@@ -20,9 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     content: DataTypes.STRING,
     meetingId: DataTypes.INTEGER,
     nickname: DataTypes.STRING,
-    vote: DataTypes.INTEGER,
+    voteId: DataTypes.INTEGER,
     commentId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'task',

@@ -10,14 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.vote.hasOne(models.user)
+      models.vote.belongsTo(models.user)
       models.vote.belongsTo(models.task)
+      models.vote.belongsTo(models.meeting)
     }
   };
   vote.init({
     userId: DataTypes.INTEGER,
     nickname: DataTypes.STRING,
-    taskId: DataTypes.INTEGER
+    taskId: DataTypes.INTEGER,
+    meetingId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'vote',

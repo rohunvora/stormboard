@@ -55,11 +55,21 @@
         <input class="input is-rounded" id="commentInput" type="text" name="commentInput">
         <button type="submit" class="button is-info is-rounded" id="commentSubmit">Reply</button>
     </form>
-    <form action="/meeting/<%=meeting.pin%>/<%=task.id>" method="POST"></form>
-    <button>Vote </button>
+    <form action="/meeting/<%=meeting.pin%>/vote/<%= t.id %>" method="POST">
+    <button type="submit"> Vote </button>
+    <input type="text" name="userID" id="userID" value="<%= user.id %>" hidden>
+    <input type="text" name="meetingID" id="meetingID" value="<%= meeting.id %>" hidden>
+    </form>
   </div>
 </article>
 
+<% let voteCount = 0 %>
+<% vote.forEach(v => { %>
+<% if (v.taskId === t.id) { %>
+<% voteCount++ %>
+<% } %>
+<% }) %>
+<h1><%= voteCount %></h1>
 <% }) %>
 
 <script src="/socket.io/socket.io.js"></script>

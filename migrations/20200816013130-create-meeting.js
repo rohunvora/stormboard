@@ -26,6 +26,9 @@ module.exports = {
       pin: {
         type: Sequelize.INTEGER,
       },
+      voteId: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

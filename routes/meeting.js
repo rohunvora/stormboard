@@ -6,6 +6,7 @@ const axios = require('axios');
 const meeting = require("../models/meeting");
 const user = require("../models/user");
 const task = require("../models/task");
+const vote = require("../models/vote");
 
 // Routes
 
@@ -13,7 +14,7 @@ const task = require("../models/task");
   router.post('/', (req, res) => {
     let meetingPin = Math.random().toString().substr(2, 4);
     // set meeting name to variable
-    let meetingName = req.body.createMeeting
+    let meetingName = req.body.createMeeting;
     //create the meeting room
         db.meeting.create({
         room: meetingName,
@@ -57,12 +58,16 @@ const task = require("../models/task");
         .then((task) => {
           db.comment.findAll()
           .then((comment) => {
-          res.render("meeting", { task: task, user: user, meeting: meeting, comment: comment});
+            db.vote.findAll({
+              where: {meetingId: meeting.id}
+             }).then((vote) => {
+          res.render("meeting", { task: task, user: user, meeting: meeting, comment: comment, vote: vote});
           })
         })
       })
     })
   })
+})
   } else {
     console.log("The else route was run");
     db.meeting.findOne({
@@ -80,11 +85,13 @@ const task = require("../models/task");
           where: { meetingId: meeting.id },
         })
       .then((task) => {
-        // db.vote.count WHERE task.id = task.id
-        // pass that in as vote: vote in the render
         db.comment.findAll()
            .then((comment) => {
-            res.render("meeting", { task: task, user: user, meeting: meeting, comment: comment});
+             db.vote.findAll({
+               where: {meetingId: meeting.id}
+             }).then((vote) => {
+            res.render("meeting", { task: task, user: user, meeting: meeting, comment: comment, vote: vote});
+             })
           })
         })
       })
@@ -121,6 +128,7 @@ router.post('/:pin/comment/:id', (req, res) => {
   let meetingPin = req.params.pin
   let taskId = req.params.id
   let userName = req.body.nickname
+  console.log(userName)
 
   db.task.findOne({
     where: {id: taskId},
@@ -136,11 +144,36 @@ router.post('/:pin/comment/:id', (req, res) => {
   res.redirect(`/meeting/${meetingPin}`);
 })
 
-// post route for /meeting/meetingpin/taskid/vote
-// check if user exists for the task id in url param
-// if it does, then destroy that row from the table
-// render the page again
-// if it does not, then create the row in the database
+router.post('/:pin/vote/:id', (req, res) => {
+  let meetingPin = req.params.pin
+  let meetingID =req.body.meetingID
+  let taskId = req.params.id
+  let userID = req.body.userID
+
+  db.vote.findOne({
+    where: {
+      userId: userID,
+      taskId: taskId
+    }
+  }).then((vote) => {
+    if (vote) {
+      db.vote.destroy({
+        where: {
+          userId: userID,
+          taskId: taskId
+        }
+      })
+    } else {
+      db.vote.create({
+        userId: userID,
+        taskId: taskId,
+        meetingId: meetingID
+      });
+    }
+  })
+  res.redirect(`/meeting/${meetingPin}`);
+})
+
 
 
 
