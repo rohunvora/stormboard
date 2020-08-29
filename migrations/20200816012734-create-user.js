@@ -32,6 +32,11 @@ module.exports = {
       voteId: {
         type: Sequelize.INTEGER
       },
+      googleId: {
+        type: Sequelize.BIGINT,
+        primaryKey: true,
+        autoIncrement: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
