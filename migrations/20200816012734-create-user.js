@@ -33,7 +33,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       googleId: {
-        type: Sequelize.BIGINT
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
