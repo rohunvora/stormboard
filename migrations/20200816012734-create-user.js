@@ -33,9 +33,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       googleId: {
-        type: Sequelize.BIGINT,
-        primaryKey: true,
-        autoIncrement: true
+        type: Sequelize.BIGINT
       },
       createdAt: {
         allowNull: false,

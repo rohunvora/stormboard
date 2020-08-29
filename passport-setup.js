@@ -9,9 +9,13 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-  User.findByPk(id, function (err, user) {
-    done(err, user);
-  });
+  console.log("This is the PK ERROR!!!")
+  console.log(id)
+  User.findOne({
+    where: {googleId: id}
+  }).then((user) => {
+    done(null, user)
+  })
 });
 
 passport.use(
@@ -22,7 +26,9 @@ passport.use(
       callbackURL: "http://localhost:3000/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
+      console.log("profile.id", profile.id)
       User.findOrCreate({where: { googleId: profile.id }}, function (err, user) {
+        console.log("This is the error" + err)
         return done(err, user);
       });
       // return done(null, profile);

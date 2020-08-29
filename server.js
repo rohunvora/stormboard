@@ -65,7 +65,7 @@ app.use(passport.session());
 
 app.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile"] })
 );
 
 app.get(
