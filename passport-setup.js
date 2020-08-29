@@ -5,12 +5,10 @@ const db = require("./models");
 const User = db.user
 
 passport.serializeUser(function (user, done) {
-  done(null, user.id);
+  done(null, user);
 });
 
 passport.deserializeUser(function (id, done) {
-  console.log("This is the PK ERROR!!!")
-  console.log(id.toString())
   User.findOne({
     where: {googleId: id.toString()}
   }).then((user) => {
@@ -26,7 +24,6 @@ passport.use(
       callbackURL: "http://localhost:3000/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
-      console.log("profile.id", profile.id)
       User.findOrCreate(
         {
           where: { googleId: profile.id.toString() }

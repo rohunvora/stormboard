@@ -53,6 +53,7 @@ app.use(cookieSession({
 );
 
 const isLoggedIn = (req, res, next) => {
+  console.log("This is the isLoggedIn" + req.user)
   if (req.user) {
     next();
   } else {
@@ -70,8 +71,9 @@ app.get(
 
 app.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
+  passport.authenticate("google", { failureRedirect: "/failed" }),
   function (req, res) {
+    console.log(req.user)
     // Successful authentication, redirect home.
     res.redirect("/welcome");
   }
