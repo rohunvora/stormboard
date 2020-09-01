@@ -26,7 +26,12 @@ passport.use(
     function (accessToken, refreshToken, profile, done) {
       User.findOrCreate(
         {
-          where: { googleId: profile.id.toString() }
+          where: {
+            googleId: profile.id.toString(),
+            firstName: profile._json.given_name,
+            lastName: profile._json.family_name,
+            email: profile._json.email
+           }
         }).then((user) => {
         return done(null, user);
       })

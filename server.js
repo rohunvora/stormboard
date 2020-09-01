@@ -7,6 +7,8 @@ const bodyParser = require("body-parser");
 const db = require("./models");
 const cookieSession = require('cookie-session')
 const passport = require("passport");
+const session = require('express-session');
+const user = require("./models/user");
 require("./passport-setup");
 require("dotenv").config();
 
@@ -17,8 +19,6 @@ app.set("view engine", "ejs");
 app.use(layouts);
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser());
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Render the homepage
 app.get('/', (req, res) => {
@@ -46,34 +46,38 @@ io.on("connection", (socket) => {
   });
 
 // Authentication
-app.use(cookieSession({
-    name: "stormboard-session",
-    keys: ["key1", "key2"],
-  })
-);
+// app.use(cookieSession({
+//     name: "stormboard-session",
+//     keys: ["key1", "key2"],
+//   })
+// );
+
+app.use(session({
+  secret: process.env.SECRET,
+  saveUninitialized: true,
+  resave: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 const isLoggedIn = (req, res, next) => {
-  console.log("This is the isLoggedIn" + req.user)
-  if (req.user) {
+  if (req.session.user) {
     next();
   } else {
     res.redirect('/');
   }
 };
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile"] })
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 app.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/failed" }),
   function (req, res) {
-    console.log(req.user)
+    req.session.user = req.user;
     // Successful authentication, redirect home.
     res.redirect("/welcome");
   }
@@ -89,8 +93,9 @@ app.get("/success", (req, res) => res.send(`Welcome ${req.user.displayName}!`));
 app.get("/failed", (req, res) => res.send("You Failed to log in!"));
 
 // In this route you can see that if the user is logged in u can acess his info in: req.user
-app.get("/welcome", isLoggedIn, (req, res) =>
-  res.render('welcome', {user: req.user.displayName})
+app.get("/welcome", isLoggedIn, (req, res) => {
+    res.render("welcome", { user: req.session.user[0] });
+}
 );
 
 
