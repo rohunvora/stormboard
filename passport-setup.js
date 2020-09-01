@@ -20,8 +20,7 @@ passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET_KEY,
-      callbackURL: "https://stormboard-io.herokuapp.com/google/callback",
+      clientSecret: process.env.CLIENT_SECRET_KEY
     },
     function (accessToken, refreshToken, profile, done) {
       User.findOrCreate({
