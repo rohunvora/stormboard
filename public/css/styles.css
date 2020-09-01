@@ -59,3 +59,22 @@ a {
 #comment {
   margin-left: 1rem;
 }
+
+#voteDiv {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  position: relative;
+}
+
+#voteButton {
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#voteCount {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}

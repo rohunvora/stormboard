@@ -56,21 +56,28 @@
         <button type="submit" class="button is-info is-rounded" id="commentSubmit">Reply</button>
     </form>
     <form action="/meeting/<%=meeting.pin%>/vote/<%= t.id %>" method="POST">
-    <button type="submit"> Vote </button>
     <input type="text" name="userID" id="userID" value="<%= user.id %>" hidden>
     <input type="text" name="meetingID" id="meetingID" value="<%= meeting.id %>" hidden>
+    <div id="voteDiv">
+    <button class="button is-success is-outlined is-rounded" type="submit" id="voteButton">Vote</button>
+    </div>
     </form>
-  </div>
-</article>
+    <% let voteCount = 0 %>
+    <% vote.forEach(v => { %>
+    <% if (v.taskId === t.id) { %>
+    <% voteCount++ %>
+    <% } %>
+    <% }) %>
+    <div id="voteCount" class="field is-grouped is-grouped-multiline">
+      <div class="control">
+        <div class="tags has-addons">
+          <span class="tag is-dark">Votes:</span>
+          <span class="tag is-primary"><%= voteCount %></span>
+        </div>
+      </div>
+  </article>
+  <% }) %>
 
-<% let voteCount = 0 %>
-<% vote.forEach(v => { %>
-<% if (v.taskId === t.id) { %>
-<% voteCount++ %>
-<% } %>
-<% }) %>
-<h1><%= voteCount %></h1>
-<% }) %>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/main.js"></script>
