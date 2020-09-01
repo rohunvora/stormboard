@@ -21,20 +21,19 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET_KEY,
-      callbackURL: "http://localhost:3000/google/callback",
+      callbackURL: "https://stormboard-io.herokuapp.com/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
-      User.findOrCreate(
-        {
-          where: {
-            googleId: profile.id.toString(),
-            firstName: profile._json.given_name,
-            lastName: profile._json.family_name,
-            email: profile._json.email
-           }
-        }).then((user) => {
+      User.findOrCreate({
+        where: {
+          googleId: profile.id.toString(),
+          firstName: profile._json.given_name,
+          lastName: profile._json.family_name,
+          email: profile._json.email,
+        },
+      }).then((user) => {
         return done(null, user);
-      })
+      });
     }
   )
 );
