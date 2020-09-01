@@ -44,6 +44,11 @@
 <article class="message">
   <div class="message-header">
   <%= t.nickname %>
+  <% if(t.nickname == user.nickname) { %>
+    <form action="/meeting/<%=meeting.pin%>/task/<%=t.id%>/delete" method="POST">
+    <button type="submit" class="delete">Delete</button>
+    </form>
+  <% } %>
   </div>
 <div class="message-body">
     <h3 class="subtitle is-4"><%= t.content %></h3>

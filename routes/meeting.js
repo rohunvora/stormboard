@@ -109,18 +109,23 @@ router.post('/:pin/task', (req, res) => {
   let meetingPin = req.params.pin
   let userName = req.body.nickname
 
-  db.meeting.findOne({
-    where: {pin: meetingPin},
-    include: [db.task, db.user]
-  })
-  .then((meeting) => {
+  if(taskContent === "") {
+    res.redirect(`/meeting/${meetingPin}`);
+  } else {
+    db.meeting
+    .findOne({
+     where: { pin: meetingPin },
+     include: [db.task, db.user],
+     })
+    .then((meeting) => {
     db.task.create({
-      content: taskContent,
-      meetingId: meeting.id,
-      nickname: userName
-    })
-  })
-  res.redirect(`/meeting/${meetingPin}`)
+    content: taskContent,
+    meetingId: meeting.id,
+    nickname: userName,
+   });
+   });
+    res.redirect(`/meeting/${meetingPin}`);
+  }
 })
 
 router.post('/:pin/comment/:id', (req, res) => {
@@ -174,7 +179,17 @@ router.post('/:pin/vote/:id', (req, res) => {
   res.redirect(`/meeting/${meetingPin}`);
 })
 
+router.post('/:pin/task/:id/delete', (req, res) => {
+    let meetingPin = req.params.pin;
+    let meetingID = req.body.meetingID;
+    let taskId = req.params.id;
+    let userID = req.body.userID;
 
+    db.task.destroy({
+      where: {id: taskId}
+    })
+    res.redirect(`/meeting/${meetingPin}`)
+})
 
 
 // Export the router module
