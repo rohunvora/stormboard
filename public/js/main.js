@@ -18,7 +18,11 @@ socket.on("notifyUpdate", () => {
   updateNotification.className = "button is-warning";
   updateNotification.innerText = "New Posts!"
   navBar.prepend(updateNotification)
+  updateNotification.addEventListener('click', () => {
+    window.location.reload();
+  })
 })
+
 
 
 //
