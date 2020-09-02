@@ -35,14 +35,17 @@ const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 
 io.on("connection", (socket) => {
-    io.emit("hello", "hello bro");
     socket.on("hello", (hello) => {
       console.log("Hello World", { hello: hello });
     });
     console.log("a user connected");
+    socket.on("newUpdates", (updates) => {
+      console.log({updates: updates})
+      socket.broadcast.emit("notifyUpdate", "New Update!")
+    })
     socket.on("disconnect", () => {
       console.log("user disconnected");
-    });
+    })
   });
 
 // Authentication
