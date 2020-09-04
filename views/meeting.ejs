@@ -30,7 +30,6 @@
 
 <h1 class="title" id="meetingName"><%= meeting.room %></h1>
 <h1 id ="meetingPin" class="subtitle is-small">Meeting Pin: <%= meeting.pin %></h1>
-<h1 class="subtitle">Your Nickname: <%= user.nickname %> </h1>
 
 <form action="/meeting/<%=meeting.pin%>/task" method="POST">
   <label class="label" for="taskInput"></label>
@@ -40,13 +39,11 @@
   </form>
 
 <% task.forEach(t => { %>
-
 <article class="message">
-  <div class="message-header">
-  <%= t.nickname %>
+  <div id="messageHeader" class="message-header">
   <% if(t.nickname == user.nickname) { %>
     <form action="/meeting/<%=meeting.pin%>/task/<%=t.id%>/delete" method="POST">
-    <button type="submit" class="delete">Delete</button>
+    <button type="submit" id="delete" class="delete">Delete</button>
     </form>
   <% } %>
   </div>
